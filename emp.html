@@ -1,0 +1,164 @@
+<!-- 9. Write a code to store multiple employee details(first name, last name, mobile number, email, salary, address(line 1, line 2, area, pincode, city, state), photo) and also print all employee details and update any employee detail or delete employee details,
+th re should not be repeated data. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Management System</title>
+  <style>
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Form for adding a new employee -->
+<h2>Add Employee</h2>
+<form id="addEmployeeForm">
+  <label for="firstName">First Name:</label>
+  <input type="text" id="firstName" required>
+
+  <label for="lastName">Last Name:</label>
+  <input type="text" id="lastName" required>
+
+  <label for="mobile">Mobile Number:</label>
+  <input type="tel" id="mobile" required>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" required>
+
+  <label for="salary">Salary:</label>
+  <input type="number" id="salary" required>
+
+  <label for="addressLine1">Address Line 1:</label>
+  <input type="text" id="addressLine1" required>
+
+  <label for="addressLine2">Address Line 2:</label>
+  <input type="text" id="addressLine2">
+
+  <label for="area">Area:</label>
+  <input type="text" id="area" required>
+
+  <label for="pincode">Pincode:</label>
+  <input type="text" id="pincode" required>
+
+  <label for="city">City:</label>
+  <input type="text" id="city" required>
+
+  <label for="state">State:</label>
+  <input type="text" id="state" required>
+
+  <label for="photo">Photo URL:</label>
+  <input type="text" id="photo" placeholder="Optional">
+
+  <button type="button" onclick="addEmployee()">Add Employee</button>
+</form>
+
+<!-- Form for updating or deleting an employee -->
+<h2>Update/Delete Employee</h2>
+<form id="updateDeleteEmployeeForm">
+  <label for="updateDeleteEmail">Email:</label>
+  <input type="email" id="updateDeleteEmail" required>
+
+  <label for="updateSalary">New Salary:</label>
+  <input type="number" id="updateSalary">
+
+  <button type="button" onclick="updateEmployee()">Update Employee</button>
+  <button type="button" onclick="deleteEmployee()">Delete Employee</button>
+</form>
+
+<!-- Display all employees -->
+<h2>All Employees</h2>
+<pre id="allEmployees"></pre>
+
+<script>
+  var employees = [];
+
+  const addEmployee = () => {
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const mobile = document.getElementById('mobile').value;
+    const email = document.getElementById('email').value;
+    const salary = document.getElementById('salary').value;
+    const addressLine1 = document.getElementById('addressLine1').value;
+    const addressLine2 = document.getElementById('addressLine2').value;
+    const area = document.getElementById('area').value;
+    const pincode = document.getElementById('pincode').value;
+    const city = document.getElementById('city').value;
+    const state = document.getElementById('state').value;
+    const photo = document.getElementById('photo').value || null;
+
+    const address = {
+      line1: addressLine1,
+      line2: addressLine2,
+      area: area,
+      pincode: pincode,
+      city: city,
+      state: state
+    };
+
+    const existingEmployee = employees.find(function (employee) {
+      return employee.email === email;
+    });
+
+    if (existingEmployee) {
+      alert("Employee with the given email already exists.");
+      return;
+    }
+
+    const employee = {
+      firstName: firstName,
+      lastName: lastName,
+      mobile: mobile,
+      email: email,
+      salary: salary,
+      address: address,
+      photo: photo
+    };
+
+    employees.push(employee);
+    updateAllEmployees();
+  }
+
+  const updateEmployee = () => {
+    const updateEmail = document.getElementById('updateDeleteEmail').value;
+    const updateSalary = document.getElementById('updateSalary').value;
+
+    const employee = employees.find(function (employee) {
+      return employee.email === updateEmail;
+    });
+
+    if (!employee) {
+      alert("Employee not found with the given email.");
+      return;
+    }
+
+    if (updateSalary) {
+      employee.salary = updateSalary;
+    }
+
+    updateAllEmployees();
+  }
+
+  const deleteEmployee = () => {
+    const deleteEmail = document.getElementById('updateDeleteEmail').value;
+
+    employees = employees.filter(function (employee) {
+      return employee.email !== deleteEmail;
+    });
+
+    updateAllEmployees();
+  }
+
+  const updateAllEmployees = () => {
+    const allEmployeesOutput = document.getElementById('allEmployees');
+    allEmployeesOutput.textContent = JSON.stringify(employees, null, 2);
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!-- 8. Write a code to store multiple student data(first name, last name, middle name, email, mobile, birthdate, address(line 1, line 2, area, city, pincode), enrollment number) and also print all student data and update any student data as well. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management System</title>
+  <style>
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Form for adding a new student -->
+  <h2>Add Student</h2>
+  <form id="addStudentForm">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" required>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" required>
+
+    <label for="middleName">Middle Name:</label>
+    <input type="text" id="middleName">
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" required>
+
+    <label for="mobile">Mobile:</label>
+    <input type="tel" id="mobile" required>
+
+    <label for="birthdate">Birthdate:</label>
+    <input type="date" id="birthdate" required>
+
+    <label for="addressLine1">Address Line 1:</label>
+    <input type="text" id="addressLine1" required>
+
+    <label for="addressLine2">Address Line 2:</label>
+    <input type="text" id="addressLine2">
+
+    <label for="area">Area:</label>
+    <input type="text" id="area" required>
+
+    <label for="city">City:</label>
+    <input type="text" id="city" required>
+
+    <label for="pincode">Pincode:</label>
+    <input type="text" id="pincode" required>
+
+    <label for="enrollmentNumber">Enrollment Number:</label>
+    <input type="text" id="enrollmentNumber" required>
+
+    <button type="button" onclick="addStudent()">Add Student</button>
+  </form>
+
+  <!-- Form for updating student data -->
+  <h2>Update Student</h2>
+  <form id="updateStudentForm">
+    <label for="updateEnrollmentNumber">Enrollment Number:</label>
+    <input type="text" id="updateEnrollmentNumber" required>
+
+    <label for="updateFirstName">New First Name:</label>
+    <input type="firstname" id="updateFirstName">
+
+    <label for="updateLastName">New Last Name:</label>
+    <input type="lastname" id="updateLastName">
+
+    <label for="updateMiddleName">New Middle Name:</label>
+    <input type="middlename" id="updateMiddleName">
+
+    <label for="updateEmail">New Email:</label>
+    <input type="email" id="updateEmail">
+
+    <label for="updateMobile">New Mobile:</label>
+    <input type="tel" id="updateMobile">
+
+    <label for="birthdate">Birthdate:</label>
+    <input type="date" id="newBirthdate" required>
+
+    <label for="addressLine1">Address Line 1:</label>
+    <input type="text" id="newAddressLine1" required>
+
+    <label for="addressLine2">Address Line 2:</label>
+    <input type="text" id="newAddressLine2">
+
+    <label for="area">Area:</label>
+    <input type="text" id="newArea" required>
+
+    <label for="city">City:</label>
+    <input type="text" id="newCity" required>
+
+    <label for="pincode">Pincode:</label>
+    <input type="text" id="newPincode" required>
+
+    <button type="button" onclick="updateStudent()">Update Student</button>
+    <button type="button" onclick="deleteStudentDetails()">Delete Employee</button>
+  </form>
+
+  <!-- Display all students -->
+  <h2>All Students</h2>
+  <pre id="allStudents"></pre>
+
+  <script>
+    var students = [];
+
+    const addStudent = () => {
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const middleName = document.getElementById('middleName').value;
+      const email = document.getElementById('email').value;
+      const mobile = document.getElementById('mobile').value;
+      const birthdate = document.getElementById('birthdate').value;
+      const addressLine1 = document.getElementById('addressLine1').value;
+      const addressLine2 = document.getElementById('addressLine2').value;
+      const area = document.getElementById('area').value;
+      const city = document.getElementById('city').value;
+      const pincode = document.getElementById('pincode').value;
+      const enrollmentNumber = document.getElementById('enrollmentNumber').value;
+
+      const address = {
+        line1: addressLine1,
+        line2: addressLine2,
+        area: area,
+        city: city,
+        pincode: pincode
+      };
+
+      const student = {
+        firstName: firstName,
+        lastName: lastName,
+        middleName: middleName,
+        email: email,
+        mobile: mobile,
+        birthdate: birthdate,
+        address: address,
+        enrollmentNumber: enrollmentNumber
+      };
+
+      const existingStudent = students.find(function (student) {
+        return student.enrollmentNumber === enrollmentNumber || student.email === email;
+      });
+
+      if (existingStudent) {
+        alert("Student with the given data already exists.");
+        return;
+      }
+
+      students.push(student);
+      updateAllStudents();
+    }
+
+    const updateStudent = () => {
+      const fields = [
+        {id: 'updateFirstName', name: "firstName"},
+        {id: 'updateLastName', name: "lastName"},
+        {id: 'updateMiddleName', name: "middleName"},
+        {id: 'updateEmail', name: "email"},
+        {id: 'updateMobile', name: "mobile"},
+        {id: 'newBirthdate', name: "birthdate"},
+        {id: 'newAddressLine1', name: "line1"},
+        {id: 'newAddressLine2', name: "line2"},
+        {id: 'newArea', name: "area"},
+        {id: 'newCity', name: "city"},
+        {id: 'newPincode', name: "pincode"},
+      ]
+
+      const addressField = [
+      "line1","line2","city","area","pincode"]
+
+      const updatedValues = {}
+      const updatedAddress = {}
+
+      fields.forEach(field => {
+        const value = document.getElementById(field.id).value;
+        if(value)
+        { 
+          if(addressField.includes(field.name)) {
+            updatedAddress[field.name] = value
+          } else {
+
+            updatedValues[field.name] = value
+          }
+        }
+      }) 
+
+      const enrollmentNumber = document.getElementById('enrollmentNumber').value;
+     
+
+      const index = students.findIndex(function (student) {
+        return student.enrollmentNumber === enrollmentNumber;
+      });
+
+      if (index !== -1) {
+        students[index] = {
+          ...students[index],
+          ...updatedValues,
+          address: {
+            ...students[index]["address"],
+            ...updatedAddress,
+          },
+        };
+
+        updateAllStudents();
+      } else {
+        alert("Student not found with the given enrollment number.");
+      }
+    };
+
+
+    const deleteStudentDetails = () => {
+      const deleteEnrollmentNumber = document.getElementById('updateEnrollmentNumber').value;
+      students = students.filter(function (student) {
+        return student.enrollmentNumber !== deleteEnrollmentNumber;
+      });
+
+      updateAllStudents();
+    }
+
+    const updateAllStudents = () => {
+      const allStudentsOutput = document.getElementById('allStudents');
+      allStudentsOutput.textContent = JSON.stringify(students, null, 2);
+    }
+  </script>
+
+</body>
+
+</html>
